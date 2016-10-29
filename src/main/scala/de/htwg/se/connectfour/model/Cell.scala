@@ -1,20 +1,16 @@
 package de.htwg.se.connectfour.model
 
-class Cell() {
+import java.awt.Color
 
-  var coin: Coin = null;
+case class Cell(content:Option[Coin]) {
+  
+  def isEmpty(): Boolean = content match {
+    case Some(coin) => false
+    case None => true
+  }
 
-  def isEmpty(): Boolean = if (coin == null) true else false;
+  def insertCoin(newCoin: Coin): Cell = copy(content = Option(newCoin))
 
-  def insertCoin(newCoin: Coin): Boolean =
-    if (coin == null) {
-      coin = newCoin;
-      return true;
-    } 
-    else {
-      return false;
-    }
-
-  def reset(): Unit = this.coin = null;
+  def reset(): Cell = copy(content = None)
 
 }
