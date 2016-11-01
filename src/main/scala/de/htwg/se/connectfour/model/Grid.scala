@@ -21,6 +21,17 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   def insertCoinAt(r: Int, c: Int, p: Player): Grid = {
     copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
   }
+  
+  def insertCoinCol(c:Int,p:Player):Grid={
+    for(r <- 0 until height){
+      var i=height-r-1;
+      if(cells(i* width + c).isEmpty()){
+        return copy(cells.updated(i* width + c, new Cell(Option(Coin(p)))))
+      }
+    }
+    //return unchanged grid
+    return copy(cells)
+  }
 
   def printout(): Unit = {
     for (r <- (0 until height)) {

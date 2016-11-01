@@ -13,12 +13,16 @@ object Main {
   var index = 0
   
   while(true){
-    println("Row:"); val row = scala.io.StdIn.readLine().toInt    
+    //println("Row:"); val row = scala.io.StdIn.readLine().toInt    
     println("Col:"); val col = scala.io.StdIn.readLine().toInt
     
-    grid = grid.insertCoinAt(row, col, players(index))    
+    
+    grid=grid.insertCoinCol(col,players(index) )
+    //grid = grid.insertCoinAt(row, col, players(index))    
     index = 1 - index    
     grid.printout()
+    
+   
   }
   
 
