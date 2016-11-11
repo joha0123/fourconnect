@@ -9,6 +9,8 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   def row(r: Int): Vector[Cell] = {
     cells.slice(r * width, (r + 1) * width)
   }
+ 
+ 
 
   def cell(r: Int, c: Int): Cell = {
     row(r)(c)
@@ -65,4 +67,130 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   }
 
+  def hasWon(): Boolean = {
+    val c1 = new Cell(Option(Coin(new Player(1))))
+    val c2 = new Cell(Option(Coin(new Player(2))))
+
+    val ListP1 = Vector(c1, c1, c1, c1)
+    val ListP2 = Vector(c2, c2, c2, c2)
+    //iterate over each index of row(0)
+    //slice each col and match
+    row(0).zipWithIndex.foreach {
+      case (cell, i) =>
+        col(i) match {
+          case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+          case _ =>
+        }
+    }
+
+    col(0).zipWithIndex.foreach {
+      case (cell, i) =>
+        row(i) match {
+          case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+          case _ =>
+        }
+    }
+    diagonal().foreach { x =>
+      println(x)
+      x match {
+        case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
+        case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+        case _ =>
+      }
+
+    }
+    false
+
+  }
+  def diagonal(): Array[Vector[Cell]] = {
+    var array: Array[Array[Cell]] = toTwoDimArray()
+    val numDiagonals = (width + height - 1) * 2
+    var d: Array[Vector[Cell]] = new Array[Vector[Cell]](numDiagonals)
+    var zähler = 0;
+
+    //Diagonals from (0,0) until (0,6) to the right
+
+    for (x1 <- (0 until width)) {
+
+      var v: List[Cell] = List();
+      var x: Integer = x1
+      var y: Integer = 0
+      while (x < width && y < height) {
+
+        v = v :+ array(x)(y)
+        y = y + 1
+        x = x + 1
+
+      }
+      d(zähler) = v.toVector;
+      zähler = zähler + 1;
+    }
+
+    for (y1 <- (1 until height)) {
+
+      var v: List[Cell] = List();
+      var x: Integer = 0
+      var y: Integer = y1
+      while (x < width && y < height) {
+
+        v = v :+ array(x)(y)
+        y = y + 1
+        x = x + 1
+
+      }
+      d(zähler) = v.toVector;
+      zähler = zähler + 1;
+    }
+    for (x1 <- (0 until width) reverse) {
+
+      var v: List[Cell] = List();
+      var x: Integer = x1
+      var y: Integer = 0
+      while (x >= 0 && x < width && y < height) {
+
+        v = v :+ array(x)(y)
+        y = y + 1
+        x = x - 1
+
+      }
+      d(zähler) = v.toVector;
+      zähler = zähler + 1;
+    }
+
+    for (y1 <- (1 until height) reverse) {
+
+      var v: List[Cell] = List();
+      var x: Integer = width - 1
+      var y: Integer = y1
+      while (x >= 0 && x < width && y < height) {
+
+        v = v :+ array(x)(y)
+        y = y + 1
+        x = x - 1
+
+      }
+      d(zähler) = v.toVector;
+      zähler = zähler + 1;
+    }
+    return d
+
+  } 
+  def toTwoDimArray(): Array[Array[Cell]] = {
+
+    val array = Array.ofDim[Array[Cell]](width)
+    for (c <- (0 until width)) {
+      array(c) = Array.ofDim[Cell](height)
+    }
+    var i = 0;
+    for (y <- (0 until height)) {
+      for (x <- (0 until width)) {
+        array(x)(y) = cells(i)
+        i = i + 1
+      }
+    }
+
+    return array;
+  }
 }

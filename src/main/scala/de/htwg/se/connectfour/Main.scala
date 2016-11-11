@@ -10,8 +10,8 @@ object Main {
   println("Player 1 name:");  val name1=scala.io.StdIn.readLine()
   println("Player 2 name:"); val name2=scala.io.StdIn.readLine()
   
-  val p1 = new model.Player(1, name1, Color.RED)
-  val p2 = new model.Player(2, name2, Color.YELLOW)  
+  val p1 = new model.Player(name1, Color.RED)
+  val p2 = new model.Player(name2, Color.YELLOW)  
   var players = Array(p1, p2)
   var index = 0
   
@@ -19,9 +19,10 @@ object Main {
     //println("Row:"); val row = scala.io.StdIn.readLine().toInt    
     println("Col:"); val col = (grid.checkInput(scala.io.StdIn.readLine()))
     println("Player "+players(index).name+" inserts " +col._1)
-    
+    grid.diagonal()
     if(col._2==true){
     grid=grid.insertCoinCol(col._1,players(index) )
+    println(grid.hasWon())
     //grid = grid.insertCoinAt(row, col, players(index))    
     index = 1 - index    
     grid.printout()
