@@ -15,11 +15,11 @@ object Main {
   var players = Array(p1, p2)
   var index = 0
   
-  while(true){
+  while(!grid.hasWon()){
     //println("Row:"); val row = scala.io.StdIn.readLine().toInt    
     println("Col:"); val col = (grid.checkInput(scala.io.StdIn.readLine()))
     println("Player "+players(index).name+" inserts " +col._1)
-    grid.diagonal()
+    
     if(col._2==true){
     grid=grid.insertCoinCol(col._1,players(index) )
     println(grid.hasWon())
@@ -32,6 +32,7 @@ object Main {
       println("Please insert a number within: "+"[0,"+(grid.width-1)+"]")
     }
   }
+  println("The game is over!")
   
 
 

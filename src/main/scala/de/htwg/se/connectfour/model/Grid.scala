@@ -93,7 +93,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
         }
     }
     diagonal().foreach { x =>
-      println(x)
+      
       x match {
         case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
         case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
@@ -190,7 +190,23 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
         i = i + 1
       }
     }
-
+    
     return array;
   }
+  
+  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
+    var i=0;
+    var grid=new Grid(this.height,this.width)
+    
+    
+    for(y <- (0 until grid.height)) {
+      for (x <- (0 until grid.width)) {
+        grid.cells.updated(i,twoDimArr(x)(y))
+        i = i + 1
+      }
+    }
+    return grid
+    
+  }
+  
 }
