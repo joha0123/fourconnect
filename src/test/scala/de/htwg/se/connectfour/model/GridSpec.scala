@@ -38,7 +38,7 @@ class GridSpec extends FlatSpec {
       }
     }
     
-    
+    //TODO: InsertCoinCol, Checkinout, ....
   
   behavior of "winning grid"
   var grid2=new Grid(height,width);
@@ -75,7 +75,21 @@ class GridSpec extends FlatSpec {
   }
    
   it should "have 4 equal coins in any diagonal" in {
-    
+      var y3=0
+      var x3=0
+      for(y<-(0 until height)if(height-3>y)){
+      for(x1<-(0 until width) if(x1<width-3)){
+        y3=y
+        x3=x1
+        for(y1<-(0 until 4)){
+          grid2=grid2.insertCoinAt(x3, y3, p1)
+          x3=x3+1;    y3=y3+1;
+        }
+       
+        assert(grid2.hasWon()==true)
+        grid2=emptygrid
+      }
+      }
   }
   
   
