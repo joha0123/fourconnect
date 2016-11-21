@@ -5,17 +5,25 @@ import java.awt.Color
 case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   def this(height: Int = 6, width: Int = 7) = this(Vector.fill(height * width)(new Cell(None)), height, width)
-
+  
+  /**
+   * returns the row
+   */
   def row(r: Int): Vector[Cell] = {
     cells.slice(r * width, (r + 1) * width)
   }
  
  
-
+  /**
+   * returns the cell
+   */
   def cell(r: Int, c: Int): Cell = {
     row(r)(c)
   }
-
+  
+  /**
+   * returns the col
+   */
   def col(c: Int): Vector[Cell] = {
     for (r <- (0 until height).toVector) yield cell(r, c)
   }
@@ -37,7 +45,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   def insertCoinAt(c: Int,r:Int, p: Player): Grid = {
     if(c<width&&r<height&&c>=0&&r>=0){
-    return copy(cells.updated((height-r-1) * width + c, new Cell(Option(Coin(p)))))
+    return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
     } else{
      throw new IllegalArgumentException 
     }
@@ -47,10 +55,9 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
    * This function inserts a Coin in the first empty row of the chosen column
    */
   def insertCoinCol(c: Int, p: Player): Grid = {
-    for (r <- 0 until height) {
-      var i = height - r - 1;
-      if (cells(i * width + c).isEmpty()) {
-        return copy(cells.updated(i * width + c, new Cell(Option(Coin(p)))))
+    for (r <- 0 until height) {      
+      if (cells(r * width + c).isEmpty()) {
+        return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
       }
     }
     //return unchanged grid
@@ -58,7 +65,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   }
 
   def printout(): Unit = {
-    for (r <- (0 until height)) {
+    for (r <- (0 until height) reverse) {
       row(r).foreach {
         c =>
           c.content match {
@@ -109,7 +116,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   }
   def diagonal(): Array[Vector[Cell]] = {
-    var array: Array[Array[Cell]] = toTwoDimArray()
+    //var array: Array[Array[Cell]] = toTwoDimArray()
     val numDiagonals = (width + height - 1) * 2
     var d: Array[Vector[Cell]] = new Array[Vector[Cell]](numDiagonals)
     var zähler = 0;
@@ -123,7 +130,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
       var y: Integer = 0
       while (x < width && y < height) {
 
-        v = v :+ array(x)(y)
+        v = v :+ col(x)(y)
         y = y + 1
         x = x + 1
 
@@ -139,7 +146,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
       var y: Integer = y1
       while (x < width && y < height) {
 
-        v = v :+ array(x)(y)
+        v = v :+ col(x)(y)
         y = y + 1
         x = x + 1
 
@@ -154,7 +161,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
       var y: Integer = 0
       while (x >= 0 && x < width && y < height) {
 
-        v = v :+ array(x)(y)
+        v = v :+ col(x)(y)
         y = y + 1
         x = x - 1
 
@@ -170,7 +177,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
       var y: Integer = y1
       while (x >= 0 && x < width && y < height) {
 
-        v = v :+ array(x)(y)
+        v = v :+ col(x)(y)
         y = y + 1
         x = x - 1
 
@@ -181,36 +188,36 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     return d
 
   } 
-  def toTwoDimArray(): Array[Array[Cell]] = {
-
-    val array = Array.ofDim[Array[Cell]](width)
-    for (c <- (0 until width)) {
-      array(c) = Array.ofDim[Cell](height)
-    }
-    var i = 0;
-    for (y <- (0 until height)) {
-      for (x <- (0 until width)) {
-        array(x)(y) = cells(i)
-        i = i + 1
-      }
-    }
-    
-    return array;
-  }
+//  def toTwoDimArray(): Array[Array[Cell]] = {
+//
+//    val array = Array.ofDim[Array[Cell]](width)
+//    for (c <- (0 until width)) {
+//      array(c) = Array.ofDim[Cell](height)
+//    }
+//    var i = 0;
+//    for (y <- (0 until height)) {
+//      for (x <- (0 until width)) {
+//        array(x)(y) = cells(i)
+//        i = i + 1
+//      }
+//    }
+//    
+//    return array;
+//  }
   
-  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
-    var i=0;
-    var grid=new Grid(this.height,this.width)
-    
-    
-    for(y <- (0 until grid.height)) {
-      for (x <- (0 until grid.width)) {
-        grid.cells.updated(i,twoDimArr(x)(y))
-        i = i + 1
-      }
-    }
-    return grid
-    
-  }
+//  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
+//    var i=0;
+//    var grid=new Grid(this.height,this.width)
+//    
+//    
+//    for(y <- (0 until grid.height)) {
+//      for (x <- (0 until grid.width)) {
+//        grid.cells.updated(i,twoDimArr(x)(y))
+//        i = i + 1
+//      }
+//    }
+//    return grid
+//    
+//  }
   
 }
