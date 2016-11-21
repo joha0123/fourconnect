@@ -35,8 +35,12 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   }
   //cell.coin.isInstanceOf[Coin]
 
-  def insertCoinAt(r: Int, c: Int, p: Player): Grid = {
-    copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
+  def insertCoinAt(c: Int,r:Int, p: Player): Grid = {
+    if(c<width&&r<height&&c>=0&&r>=0){
+    return copy(cells.updated((height-r-1) * width + c, new Cell(Option(Coin(p)))))
+    } else{
+     throw new IllegalArgumentException 
+    }
   }
 
   /**

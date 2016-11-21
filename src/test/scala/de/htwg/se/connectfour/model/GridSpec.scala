@@ -4,16 +4,29 @@ import org.scalatest.FlatSpec
 import java.awt.Color
 
 class GridSpec extends FlatSpec {
-  
-//    val height=6;    val width=7;
-//    val p1=new Player("Johannes",Color.BLACK);
-//    val p2=new Player("Patrick",Color.BLACK);
-//    var grid1=new Grid(height,width);
-//    val player:Array[Player]=new Array[Player](2)
-//    player(0)=p1;      player(1)=p2;
+    //width x        //height y
+                    val height=6;    
+    val width=7;
+    val p1=new Player("Johannes",Color.BLACK);
+    val p2=new Player("Patrick",Color.BLACK);
+    var grid1=new Grid(height,width);
+    val player:Array[Player]=new Array[Player](2)
+    player(0)=p1;      player(1)=p2;
     
+    behavior of "an empty grid"
     
-  
+    it should "have no coin in every Cell" in{
+      grid1.cells.foreach { x =>  
+        assert(x.content.equals(None))
+      }
+    }
+    
+    it should "be possible to insert a coin" in{
+      grid1=grid1.insertCoinAt(0, 0, p1)
+      grid1=grid1.insertCoinAt(1, 1, p1)
+      grid1=grid1.insertCoinAt(5, 6, p1)
+      grid1.printout()
+    }
   
   
 //  
