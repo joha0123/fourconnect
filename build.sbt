@@ -13,4 +13,6 @@ libraryDependencies ++= {
     "org.scalatest" %% "scalatest"                   % scalaTestV       % "test",
     "org.scalamock" %% "scalamock-scalatest-support" % scalaMockV       % "test"
   )
+   
 }
+libraryDependencies += "com.novocode" % "junit-interface" % "0.8" % "test->default"

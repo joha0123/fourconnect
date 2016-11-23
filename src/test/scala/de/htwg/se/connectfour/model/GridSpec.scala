@@ -3,8 +3,12 @@ package de.htwg.se.connectfour.model
 import org.scalatest.FlatSpec
 
 import java.awt.Color
+import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
 
 
+
+@RunWith(classOf[JUnitRunner])
 class GridSpec extends FlatSpec {
     //width x        //height y
                     val height=6;    

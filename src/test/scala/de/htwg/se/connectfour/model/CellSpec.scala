@@ -3,7 +3,11 @@ package de.htwg.se.connectfour.model
 import org.scalatest._
 import java.awt.Color
 import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
+
+@RunWith(classOf[JUnitRunner])
 class CellSpec extends FlatSpec {
   behavior of "An empty Cell"
 
