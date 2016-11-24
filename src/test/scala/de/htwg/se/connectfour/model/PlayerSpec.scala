@@ -32,6 +32,25 @@ class PlayerSpec extends FlatSpec {
     assert(player1.name.equals("Joha"))
   }
   
+  it should "have all attributes" in {
+    var p2=new Player(1)
+    var p3=new Player(1,"Joha",Color.red)
+    var p4=new Player(2,"patt",Color.BLACK,0)
+//    assert(p2.id==1);   assert(p2.name.equals(""));   assert(p2.color.equals(Color.BLACK))
+//    assert(p3.name.equals("Joha"));     assert(p3.id==1);    assert(p3.gamesWon==0);  
+//    assert(p4.id==2); assert(p4.color.equals(Color.BLACK)); assert(p4.gamesWon==0);
+//    assert(p4.name.equals("patt"))
+  }
+  
+  it should "be equal" in {
+    var grid=new Grid(0,0)
+    var p2=new Player(1)
+    var p3=new Player(1,"Joha",Color.red)
+    var p4=new Player(2,"patt",Color.BLACK,0)
+     assert(p3.equals(p2));         assert(!p3.equals(p4))
+     assert(!p3.equals(grid))
+  }
+  
   behavior of "The second new Player"
   
   it should "have a 2 as id" in{

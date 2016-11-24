@@ -64,18 +64,20 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     return copy(cells)
   }
 
-  def printout(): Unit = {
+  def printout(): String = {
+    var builder:StringBuilder=new StringBuilder()
+    
     for (r <- (0 until height) reverse) {
       row(r).foreach {
         c =>
           c.content match {
-            case Some(coin) => print(coin.player.id + " ")
-            case None => print("N ")
+            case Some(coin) => builder.append(coin.player.id + " ")
+            case None => builder.append("N ")
           }
       }
-      println()
+      builder.append("\n")
     }
-
+    return builder.toString()
   }
 
   def hasWon(): Boolean = {

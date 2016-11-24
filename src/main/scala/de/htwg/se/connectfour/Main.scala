@@ -25,7 +25,7 @@ object Main {
     println(grid.hasWon())
     //grid = grid.insertCoinAt(row, col, players(index))    
     index = 1 - index    
-    grid.printout()
+    print(grid.printout())
     
     
     } else{
