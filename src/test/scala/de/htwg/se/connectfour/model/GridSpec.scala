@@ -7,14 +7,14 @@ import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
 
-@RunWith(classOf[JUnitRunner])
+
 class GridSpec extends FlatSpec {
 
   //width x        //height y
   val height = 6;
   val width = 7;
-  val p1 = new Player("Johannes", Color.BLACK);
-  val p2 = new Player("Patrick", Color.BLACK);
+  val p1 = new Player(1,"Johannes", Color.BLACK);
+  val p2 = new Player(2,"Patrick", Color.BLACK);
 
   val player: Array[Player] = new Array[Player](2)
   player(0) = p1; player(1) = p2;
@@ -61,13 +61,13 @@ class GridSpec extends FlatSpec {
   }
 
   it should "print the grid" in {
-    
-    val grid="N N N N N N N \n"+
-    "N N N N N N N \n"+
-    "N N N N N N N \n"+
-    "N N N N N N N \n"+
-    "2 N N N N N N \n"+
-    "2 N N N N N N \n"
+
+    val grid = "N N N N N N N \n" +
+      "N N N N N N N \n" +
+      "N N N N N N N \n" +
+      "N N N N N N N \n" +
+      "2 N N N N N N \n" +
+      "2 N N N N N N \n"
     assert(grid.equals(grid1.printout()))
 
   }

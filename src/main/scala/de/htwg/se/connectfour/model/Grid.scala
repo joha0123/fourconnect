@@ -5,22 +5,21 @@ import java.awt.Color
 case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   def this(height: Int = 6, width: Int = 7) = this(Vector.fill(height * width)(new Cell(None)), height, width)
-  
+
   /**
    * returns the row
    */
   def row(r: Int): Vector[Cell] = {
     cells.slice(r * width, (r + 1) * width)
   }
- 
- 
+
   /**
    * returns the cell
    */
   def cell(r: Int, c: Int): Cell = {
     row(r)(c)
   }
-  
+
   /**
    * returns the col
    */
@@ -43,11 +42,11 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   }
   //cell.coin.isInstanceOf[Coin]
 
-  def insertCoinAt(c: Int,r:Int, p: Player): Grid = {
-    if(c<width&&r<height&&c>=0&&r>=0){
-    return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
-    } else{
-     throw new IllegalArgumentException 
+  def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
+    if (c < width && r < height && c >= 0 && r >= 0) {
+      return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
+    } else {
+      throw new IllegalArgumentException
     }
   }
 
@@ -55,7 +54,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
    * This function inserts a Coin in the first empty row of the chosen column
    */
   def insertCoinCol(c: Int, p: Player): Grid = {
-    for (r <- 0 until height) {      
+    for (r <- 0 until height) {
       if (cells(r * width + c).isEmpty()) {
         return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
       }
@@ -65,8 +64,8 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   }
 
   def printout(): String = {
-    var builder:StringBuilder=new StringBuilder()
-    
+    var builder: StringBuilder = new StringBuilder()
+
     for (r <- (0 until height) reverse) {
       row(r).foreach {
         c =>
@@ -106,7 +105,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
         }
     }
     diagonal().foreach { x =>
-      
+
       x match {
         case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
         case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
@@ -189,37 +188,37 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     }
     return d
 
-  } 
-//  def toTwoDimArray(): Array[Array[Cell]] = {
-//
-//    val array = Array.ofDim[Array[Cell]](width)
-//    for (c <- (0 until width)) {
-//      array(c) = Array.ofDim[Cell](height)
-//    }
-//    var i = 0;
-//    for (y <- (0 until height)) {
-//      for (x <- (0 until width)) {
-//        array(x)(y) = cells(i)
-//        i = i + 1
-//      }
-//    }
-//    
-//    return array;
-//  }
-  
-//  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
-//    var i=0;
-//    var grid=new Grid(this.height,this.width)
-//    
-//    
-//    for(y <- (0 until grid.height)) {
-//      for (x <- (0 until grid.width)) {
-//        grid.cells.updated(i,twoDimArr(x)(y))
-//        i = i + 1
-//      }
-//    }
-//    return grid
-//    
-//  }
-  
+  }
+  //  def toTwoDimArray(): Array[Array[Cell]] = {
+  //
+  //    val array = Array.ofDim[Array[Cell]](width)
+  //    for (c <- (0 until width)) {
+  //      array(c) = Array.ofDim[Cell](height)
+  //    }
+  //    var i = 0;
+  //    for (y <- (0 until height)) {
+  //      for (x <- (0 until width)) {
+  //        array(x)(y) = cells(i)
+  //        i = i + 1
+  //      }
+  //    }
+  //    
+  //    return array;
+  //  }
+
+  //  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
+  //    var i=0;
+  //    var grid=new Grid(this.height,this.width)
+  //    
+  //    
+  //    for(y <- (0 until grid.height)) {
+  //      for (x <- (0 until grid.width)) {
+  //        grid.cells.updated(i,twoDimArr(x)(y))
+  //        i = i + 1
+  //      }
+  //    }
+  //    return grid
+  //    
+  //  }
+
 }
