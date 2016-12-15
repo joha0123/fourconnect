@@ -7,14 +7,13 @@ import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
 
-
 class GridSpec extends FlatSpec {
 
   //width x        //height y
   val height = 6;
   val width = 7;
-  val p1 = new Player(1,"Johannes", Color.BLACK);
-  val p2 = new Player(2,"Patrick", Color.BLACK);
+  val p1 = new Player(1, "Johannes", Color.BLACK);
+  val p2 = new Player(2, "Patrick", Color.BLACK);
 
   val player: Array[Player] = new Array[Player](2)
   player(0) = p1; player(1) = p2;

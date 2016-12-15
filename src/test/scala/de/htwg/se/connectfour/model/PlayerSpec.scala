@@ -6,7 +6,6 @@ import java.awt.Color
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 
-
 class PlayerSpec extends FlatSpec {
   val player1 = new Player("Joha", Color.BLACK)
   val player2 = new Player("Pat", Color.RED)

@@ -25,7 +25,7 @@ class CellSpec extends FlatSpec {
 
   it should "be possible to insert a coin" in {
     var cell = new Cell
-    cell = cell.insertCoin(new Coin(new Player(1,"", Color.RED)))
+    cell = cell.insertCoin(new Coin(new Player(1, "", Color.RED)))
     assert(cell.content.isInstanceOf[Option[Coin]] == true)
     assert(cell.isEmpty == false)
 
@@ -38,9 +38,9 @@ class CellSpec extends FlatSpec {
 
   it should "be empty after reset" in {
     var cell = new Cell()
-    var cell2 = new Cell(Option(new Coin(new Player(1,"", Color.red))))
+    var cell2 = new Cell(Option(new Coin(new Player(1, "", Color.red))))
 
-    cell = cell.insertCoin(new Coin(new Player(1,"", Color.red)))
+    cell = cell.insertCoin(new Coin(new Player(1, "", Color.red)))
     cell = cell.reset()
     assert(cell.content == None)
     assert(cell.isEmpty() == true)
