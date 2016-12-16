@@ -40,6 +40,9 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     }
     return (0, false)
   }
+  
+  def checkInput(col:Int):Boolean = if (col >= 0 && col < width) true else false
+  
   //cell.coin.isInstanceOf[Coin]
 
   def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
