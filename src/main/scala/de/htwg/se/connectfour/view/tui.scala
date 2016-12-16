@@ -3,8 +3,11 @@ package de.htwg.se.connectfour.view
 import de.htwg.se.connectfour.controller.Connect4Controller
 import de.htwg.se.connectfour.model.Player
 import scala.util.matching.Regex
+import de.htwg.se.connectfour.util.IObserver
 
-class tui(var controller:Connect4Controller) {
+class tui(var controller:Connect4Controller) extends IObserver {
+  //Observer zur subscriber List hinzufügen
+  controller.add(this)
   printTui
   var index = 0
   
@@ -39,8 +42,10 @@ class tui(var controller:Connect4Controller) {
   
   private def insertCoin(i:Int, player:Int) = {
     controller.insertCoin(i,player)
-    println(controller.printout())
   }
+  
+  @Override
+  def update()=printTui
   
   
 }
