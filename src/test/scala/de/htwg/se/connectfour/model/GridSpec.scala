@@ -51,11 +51,9 @@ class GridSpec extends FlatSpec {
   }
 
   it should "validate the tui input" in {
-    assert(grid1.checkInput("2").equals((2, true)))
-    assert(grid1.checkInput("     2").equals((2, true)))
-    assert(grid1.checkInput("einString").equals((0, false)))
-    assert(grid1.checkInput("-2").equals((0, false)))
-    assert(grid1.checkInput("20").equals((0, false)))
+    assert(grid1.checkInput(2).equals(true))
+    assert(grid1.checkInput(-1).equals(false))
+    assert(grid1.checkInput(12).equals(false))
 
   }
 
@@ -76,28 +74,30 @@ class GridSpec extends FlatSpec {
   var emptygrid = new Grid(height, width)
 
   it should "have 4 equal coins in any row" in {
-
-    for (y <- (0 until height)) {
-      for (x1 <- (0 until width) if (width - 3 > x1)) {
-        for (x <- (x1 until x1 + 4) if (x < grid1.width)) {
-          grid2 = grid2.insertCoinAt(x, y, p1)
+    for (pid <- (0 to 1)) {
+      for (y <- (0 until height)) {
+        for (x1 <- (0 until width) if (width - 3 > x1)) {
+          for (x <- (x1 until x1 + 4) if (x < grid1.width)) {
+            grid2 = grid2.insertCoinAt(x, y, player(pid))
+          }
+          assert(grid2.hasWon() == true)
+          grid2 = emptygrid
         }
-        assert(grid2.hasWon() == true)
-        grid2 = emptygrid
       }
     }
 
   }
 
   it should "have 4 equal coins in any col" in {
-
-    for (y <- (0 until height) if (height - 3 > y)) {
-      for (x1 <- (0 until width)) {
-        for (y1 <- (y until y + 4) if (y1 < grid1.height)) {
-          grid2 = grid2.insertCoinAt(x1, y1, p1)
+    for (pid <- (0 to 1)) {
+      for (y <- (0 until height) if (height - 3 > y)) {
+        for (x1 <- (0 until width)) {
+          for (y1 <- (y until y + 4) if (y1 < grid1.height)) {
+            grid2 = grid2.insertCoinAt(x1, y1, player(pid))
+          }
+          assert(grid2.hasWon() == true)
+          grid2 = emptygrid
         }
-        assert(grid2.hasWon() == true)
-        grid2 = emptygrid
       }
     }
 
@@ -106,19 +106,30 @@ class GridSpec extends FlatSpec {
   it should "have 4 equal coins in any diagonal" in {
     var y3 = 0
     var x3 = 0
-    for (y <- (0 until height) if (height - 3 > y)) {
-      for (x1 <- (0 until width) if (x1 < width - 3)) {
-        y3 = y
-        x3 = x1
-        for (y1 <- (0 until 4)) {
-          grid2 = grid2.insertCoinAt(x3, y3, p1)
-          x3 = x3 + 1; y3 = y3 + 1;
-        }
+    for (pid <- (0 to 1)) {
+      for (y <- (0 until height) if (height - 3 > y)) {
+        for (x1 <- (0 until width) if (x1 < width - 3)) {
+          y3 = y
+          x3 = x1
+          for (y1 <- (0 until 4)) {
+            grid2 = grid2.insertCoinAt(x3, y3, player(pid))
+            x3 = x3 + 1; y3 = y3 + 1;
+          }
 
-        assert(grid2.hasWon() == true)
-        grid2 = emptygrid
+          assert(grid2.hasWon() == true)
+          grid2 = emptygrid
+        }
       }
     }
+  }
+
+  it should "equal a grid with same coins" in {
+    var grid3 = new Grid(6, 7)
+    var grid4 = new Grid(6, 7)
+    grid3 = grid3.insertCoinCol(1, p1)
+    grid4 = grid4.insertCoinCol(1, p1)
+    assert(grid3.equals(grid4))
+    assert(grid3.equals(p1).unary_!)
   }
 
   behavior of "full grid"

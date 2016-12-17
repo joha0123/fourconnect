@@ -28,21 +28,11 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   }
 
   /*
-   *returns a Tupel of Type (Int,Boolean). True if the column is within the grid.
+   *True if the column is within the grid.
    *  
    */
-  def checkInput(c: String): (Int, Boolean) = {
-    if (c.trim().matches("[0-9]")) {
-      val col = c.trim.toInt
-      if (col >= 0 && col < width) {
-        return (col, true)
-      }
-    }
-    return (0, false)
-  }
-  
-  def checkInput(col:Int):Boolean = if (col >= 0 && col < width) true else false
-  
+  def checkInput(col: Int): Boolean = if (col >= 0 && col < width) true else false
+
   //cell.coin.isInstanceOf[Coin]
 
   def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
@@ -192,6 +182,16 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     return d
 
   }
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Grid => that.canEqual(this) && this.hashCode == that.hashCode
+      case _ => false
+    }
+  override def hashCode: Int = {
+    return this.cells.hashCode()
+  }
+
   //  def toTwoDimArray(): Array[Array[Cell]] = {
   //
   //    val array = Array.ofDim[Array[Cell]](width)
