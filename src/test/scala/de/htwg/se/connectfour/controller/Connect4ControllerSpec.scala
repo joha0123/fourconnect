@@ -4,6 +4,7 @@ import org.scalatest.FlatSpec
 import de.htwg.se.connectfour.model.Grid
 import de.htwg.se.connectfour.model.Player
 import java.awt.Color
+import de.htwg.se.connectfour.util.CommandManager
 
 class Connect4ControllerSpec extends FlatSpec {
 
@@ -11,9 +12,10 @@ class Connect4ControllerSpec extends FlatSpec {
   val p1 = new Player(1, "J", Color.RED)
   val p2 = new Player(2, "P", Color.YELLOW)
   var players = Array(p1, p2)
-  var grid1 = new Grid(6, 7);
+  var grid1 = new Grid(6, 7)
   var grid2 = new Grid(6, 7)
-  val controller = new Connect4Controller(grid1, players)
+  val commandManager=new CommandManager()
+  val controller = new Connect4Controller(grid1, players,commandManager)
 
   it should "have a dimension" in {
     assert(controller.getDimension.equals("[0,7]"))

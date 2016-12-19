@@ -22,7 +22,8 @@ class tui(var controller: Connect4Controller) extends IObserver {
     val input = scala.io.StdIn.readLine()
     input match {
       case "q" => continue = false
-      case "r" => controller.restart
+      case "u" => if(controller.undo) index=1-index
+      case "r" => if(controller.redo) index=1-index
       case numbers() => if (controller.isValid(input.trim().toInt)) {
         insertCoin(input.trim().toInt, index)
         index = 1 - index
@@ -35,7 +36,7 @@ class tui(var controller: Connect4Controller) extends IObserver {
 
   def printTui = {
     println(controller.printout())
-    println("Enter command: q-Quit r-Restart " + controller.getDimension + " Col")
+    println("Enter command: q-Quit r-Redo u-Undo " + controller.getDimension + " Col")
   }
 
   private def insertCoin(i: Int, player: Int) = {
