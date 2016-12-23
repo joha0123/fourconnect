@@ -6,35 +6,11 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
   def this(height: Int = 6, width: Int = 7) = this(Vector.fill(height * width)(new Cell(None)), height, width)
 
-  /**
-   * returns the row
-   */
-  def row(r: Int): Vector[Cell] = {
-    cells.slice(r * width, (r + 1) * width)
-  }
-
-  /**
-   * returns the cell
-   */
-  def cell(r: Int, c: Int): Cell = {
-    row(r)(c)
-  }
-
-  /**
-   * returns the col
-   */
-  def col(c: Int): Vector[Cell] = {
-    for (r <- (0 until height).toVector) yield cell(r, c)
-  }
-
-  /*
-   *True if the column is within the grid.
-   *  
-   */
-  def checkInput(col: Int): Boolean = if (col >= 0 && col < width) true else false
-
-  //cell.coin.isInstanceOf[Coin]
-
+  def row(r: Int): Vector[Cell] = cells.slice(r * width, (r + 1) * width)
+  def cell(r: Int, c: Int): Cell = row(r)(c)
+  def col(c: Int): Vector[Cell] = for (r <- (0 until height).toVector) yield cell(r, c)
+  def isWithinGrid(col: Int): Boolean = if (col >= 0 && col < width) true else false
+  
   def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
     if (c < width && r < height && c >= 0 && r >= 0) {
       return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))

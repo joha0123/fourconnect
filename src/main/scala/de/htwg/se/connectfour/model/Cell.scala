@@ -2,16 +2,14 @@ package de.htwg.se.connectfour.model
 
 import java.awt.Color
 
-case class Cell(content: Option[Coin]) {
-  def this() = this(None)
+case class Cell(content: Option[Coin]=None) {
 
   def isEmpty(): Boolean = content match {
-    case Some(c) => return false
+    case Some(c) => false
     case None => true
   }
 
   def insertCoin(newCoin: Coin): Cell = copy(content = Option(newCoin))
-
   def reset(): Cell = copy(content = None)
 
 }

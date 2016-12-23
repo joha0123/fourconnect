@@ -12,7 +12,7 @@ class Connect4Controller(var grid: Grid, player: Array[Player],commandManager:Co
     //evtl Design Pattern?
   }
   
-  def undo:Boolean={
+  def undo:Boolean={ 
     var flag=false
     if(commandManager.isUndoAvailable){
       grid=commandManager.undo
@@ -38,7 +38,7 @@ class Connect4Controller(var grid: Grid, player: Array[Player],commandManager:Co
 
   def hasWon(): Boolean = grid.hasWon()
 
-  def isValid(number: Int): Boolean = grid.checkInput(number)
+  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
 
   def insertCoin(number: Int, playerID: Int) = {
     grid=commandManager.executeCommand(new InserCoinCommand(grid,number,player(playerID)))
