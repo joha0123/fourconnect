@@ -43,7 +43,9 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
   def printout(): String = grid.printout()
   def playerName(playerID:Int):String=grid.getPlayerName(playerID)
   
+  
   def insertCoin(number: Int, playerID: Int) = {
+    require(playerID==0||playerID==1)
     grid = commandManager.executeCommand(new InserCoinCommand(grid, number, playerID))
     println("Player " + playerName(playerID)+ " inserts " + number)
     notifyObservers()
