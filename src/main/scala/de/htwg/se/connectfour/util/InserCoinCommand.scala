@@ -1,4 +1,4 @@
-package de.htwg.se.connectfour.controller
+package de.htwg.se.connectfour.util
 
 import de.htwg.se.connectfour.util.Command
 import de.htwg.se.connectfour.model.Grid

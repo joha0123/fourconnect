@@ -51,9 +51,9 @@ class GridSpec extends FlatSpec {
   }
 
   it should "validate the tui input" in {
-    assert(grid1.checkInput(2).equals(true))
-    assert(grid1.checkInput(-1).equals(false))
-    assert(grid1.checkInput(12).equals(false))
+    assert(grid1.isWithinGrid(2).equals(true))
+    assert(grid1.isWithinGrid(-1).equals(false))
+    assert(grid1.isWithinGrid(12).equals(false))
 
   }
 

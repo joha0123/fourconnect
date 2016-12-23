@@ -4,6 +4,7 @@ import de.htwg.se.connectfour.model.Grid
 import de.htwg.se.connectfour.model.Player
 import de.htwg.se.connectfour.util.Observeable
 import de.htwg.se.connectfour.util.CommandManager
+import de.htwg.se.connectfour.util.InserCoinCommand
 
 class Connect4Controller(var grid: Grid, player: Array[Player],commandManager:CommandManager) extends Observeable {
 
