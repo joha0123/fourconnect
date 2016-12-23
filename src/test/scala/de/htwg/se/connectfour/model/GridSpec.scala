@@ -6,6 +6,9 @@ import java.awt.Color
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
+import de.htwg.se.connectfour.model.impl.Player
+import de.htwg.se.connectfour.model.impl.Grid
+import de.htwg.se.connectfour.model.impl.Coin
 
 class GridSpec extends FlatSpec {
 
@@ -19,7 +22,7 @@ class GridSpec extends FlatSpec {
   player(0) = p1; player(1) = p2;
 
   behavior of "an empty grid"
-  var grid1 = new Grid(height, width);
+  var grid1 =new Grid(height, width);
 
   it should "have no coin in every Cell" in {
     grid1.cells.foreach { x =>
@@ -28,7 +31,7 @@ class GridSpec extends FlatSpec {
   }
 
   it should "be possible to insert a coin at cell" in {
-    grid1 = grid1.insertCoinAt(0, 0, p2)
+    grid1 = grid1.insertCoinAt(0, 0, p1)
     assert(grid1.row(0)(0).content.isInstanceOf[Some[Coin]])
     assert(grid1.col(0)(0).content.isInstanceOf[Some[Coin]])
 
@@ -44,7 +47,7 @@ class GridSpec extends FlatSpec {
   }
 
   it should "be possible to insert a coin at col" in {
-    grid1 = grid1.insertCoinCol(0, p2)
+    grid1 = grid1.insertCoinCol(0, 1)
     assert(grid1.row(0)(0).content.isInstanceOf[Some[Coin]])
     assert(grid1.col(0)(0).content.isInstanceOf[Some[Coin]])
 
@@ -58,13 +61,14 @@ class GridSpec extends FlatSpec {
   }
 
   it should "print the grid" in {
+    println(grid1.printout())
 
     val grid = "N N N N N N N \n" +
       "N N N N N N N \n" +
       "N N N N N N N \n" +
       "N N N N N N N \n" +
-      "2 N N N N N N \n" +
-      "2 N N N N N N \n"
+      "1 N N N N N N \n" +
+      "1 N N N N N N \n"
     assert(grid.equals(grid1.printout()))
 
   }
@@ -126,8 +130,8 @@ class GridSpec extends FlatSpec {
   it should "equal a grid with same coins" in {
     var grid3 = new Grid(6, 7)
     var grid4 = new Grid(6, 7)
-    grid3 = grid3.insertCoinCol(1, p1)
-    grid4 = grid4.insertCoinCol(1, p1)
+    grid3 = grid3.insertCoinCol(1, 1)
+    grid4 = grid4.insertCoinCol(1, 1)
     assert(grid3.equals(grid4))
     assert(grid3.equals(p1).unary_!)
   }
@@ -136,10 +140,10 @@ class GridSpec extends FlatSpec {
 
   it should "not be possible to insert a coin at col" in {
     for (y <- (0 to height + 1)) {
-      grid2 = grid2.insertCoinCol(0, p2)
+      grid2 = grid2.insertCoinCol(0, 1)
     }
     var grid3 = grid2
-    grid2 = grid2.insertCoinCol(0, p2)
+    grid2 = grid2.insertCoinCol(0, 1)
     assert(grid3.equals(grid2))
 
   }

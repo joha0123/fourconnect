@@ -1,8 +1,8 @@
-package de.htwg.se.connectfour.model
+package de.htwg.se.connectfour.model.impl
 
-import java.awt.Color
+import de.htwg.se.connectfour.model.impl.Coin
 
-case class Cell(content: Option[Coin]=None) {
+case class Cell(content: Option[Coin] = None) {
 
   def isEmpty(): Boolean = content match {
     case Some(c) => false

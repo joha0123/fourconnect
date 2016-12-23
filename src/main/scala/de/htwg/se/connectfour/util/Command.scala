@@ -1,8 +1,8 @@
 package de.htwg.se.connectfour.util
 
-import de.htwg.se.connectfour.model.Grid
+import de.htwg.se.connectfour.model.IGrid
 
 trait Command {
-  def execute:Grid;
-  def undo:Grid;
+  def execute: IGrid;
+  def undo: IGrid;
 }

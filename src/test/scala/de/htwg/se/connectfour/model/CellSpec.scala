@@ -5,6 +5,9 @@ import java.awt.Color
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import de.htwg.se.connectfour.model.impl.Player
+import de.htwg.se.connectfour.model.impl.Cell
+import de.htwg.se.connectfour.model.impl.Coin
 
 //@RunWith(classOf[JUnitRunner])
 class CellSpec extends FlatSpec {

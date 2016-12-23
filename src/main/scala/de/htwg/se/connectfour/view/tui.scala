@@ -1,7 +1,7 @@
 package de.htwg.se.connectfour.view
 
 import de.htwg.se.connectfour.controller.Connect4Controller
-import de.htwg.se.connectfour.model.Player
+import de.htwg.se.connectfour.model.impl.Player
 import scala.util.matching.Regex
 import de.htwg.se.connectfour.util.IObserver
 
@@ -18,12 +18,13 @@ class tui(var controller: Connect4Controller) extends IObserver {
    */
   def processInputLine() = {
     var continue = controller.hasWon().unary_!
+    if(continue.unary_!)println(controller.playerName(1-index)+" has won")
     val numbers = new Regex("[0-9]")
     val input = scala.io.StdIn.readLine()
     input match {
       case "q" => continue = false
-      case "u" => if(controller.undo) index=1-index
-      case "r" => if(controller.redo) index=1-index
+      case "u" => if (controller.undo) index = 1 - index
+      case "r" => if (controller.redo) index = 1 - index
       case numbers() => if (controller.isValid(input.trim().toInt)) {
         insertCoin(input.trim().toInt, index)
         index = 1 - index

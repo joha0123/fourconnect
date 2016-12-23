@@ -5,6 +5,8 @@ import org.scalatest.FlatSpec
 import java.awt.Color
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
+import de.htwg.se.connectfour.model.impl.Player
+import de.htwg.se.connectfour.model.impl.Grid
 
 class PlayerSpec extends FlatSpec {
   val player1 = new Player("Joha", Color.BLACK)

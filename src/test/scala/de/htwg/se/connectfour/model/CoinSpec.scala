@@ -4,6 +4,8 @@ import org.scalatest._
 import java.awt.Color
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import de.htwg.se.connectfour.model.impl.Player
+import de.htwg.se.connectfour.model.impl.Coin
 
 class CoinSpec extends FlatSpec {
   behavior of "A Coin"

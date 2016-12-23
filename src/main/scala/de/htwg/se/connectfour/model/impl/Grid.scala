@@ -1,16 +1,34 @@
-package de.htwg.se.connectfour.model
+package de.htwg.se.connectfour.model.impl
+
 
 import java.awt.Color
+import de.htwg.se.connectfour.model.IGrid
+import scala.Vector
 
-case class Grid(cells: Vector[Cell], height: Int, width: Int) {
 
-  def this(height: Int = 6, width: Int = 7) = this(Vector.fill(height * width)(new Cell(None)), height, width)
+object Grid {
+  //Companion Object to initialize Players
+  def apply(height: Int, width: Int): Grid = new Grid(height, width,initPlayer())
+  def apply():Grid=apply(6,7)
 
+  def initPlayer(): Array[Player] = {
+    println("Player 1 name:"); val name1 = scala.io.StdIn.readLine()
+    println("Player 2 name:"); val name2 = scala.io.StdIn.readLine()
+    val p1 = new Player(name1, Color.RED)
+    val p2 = new Player(name2, Color.YELLOW)
+    Array(p1, p2)
+  }
+
+}
+
+case class Grid(cells: Vector[Cell], height: Int, width: Int, player:Array[Player]) extends IGrid {
+    def this(height:Int, width:Int,player:Array[Player])= this(Vector.fill(height * width)(new Cell(None)), height, width, player)
+      def this(height:Int,width:Int)=this(height,width,Array(new Player(0),new Player(1)))
   def row(r: Int): Vector[Cell] = cells.slice(r * width, (r + 1) * width)
   def cell(r: Int, c: Int): Cell = row(r)(c)
   def col(c: Int): Vector[Cell] = for (r <- (0 until height).toVector) yield cell(r, c)
   def isWithinGrid(col: Int): Boolean = if (col >= 0 && col < width) true else false
-  
+
   def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
     if (c < width && r < height && c >= 0 && r >= 0) {
       return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
@@ -18,20 +36,23 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
       throw new IllegalArgumentException
     }
   }
+  def getPlayerName(playerID:Int):String=player(playerID).name
+  
 
   /**
    * This function inserts a Coin in the first empty row of the chosen column
    */
-  def insertCoinCol(c: Int, p: Player): Grid = {
+  def insertCoinCol(c: Int, playerID: Int): Grid = {
     for (r <- 0 until height) {
       if (cells(r * width + c).isEmpty()) {
-        return copy(cells.updated(r * width + c, new Cell(Option(Coin(p)))))
+        return copy(cells.updated(r * width + c, new Cell(Option(Coin(player(playerID))))))
       }
     }
     //return unchanged grid
     return copy(cells)
   }
 
+  
   def printout(): String = {
     var builder: StringBuilder = new StringBuilder()
 
@@ -59,8 +80,8 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     row(0).zipWithIndex.foreach {
       case (cell, i) =>
         col(i) match {
-          case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
-          case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP2)) => return true;
           case _ =>
         }
     }
@@ -68,16 +89,16 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
     col(0).zipWithIndex.foreach {
       case (cell, i) =>
         row(i) match {
-          case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
-          case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
+          case v: Vector[Cell] if (v.containsSlice(ListP2)) =>return true;
           case _ =>
         }
     }
     diagonal().foreach { x =>
 
       x match {
-        case v: Vector[Cell] if (v.containsSlice(ListP1)) => println("Player1 won"); return true;
-        case v: Vector[Cell] if (v.containsSlice(ListP2)) => println("Player2 won"); return true;
+        case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
+        case v: Vector[Cell] if (v.containsSlice(ListP2)) =>return true;
         case _ =>
       }
 
@@ -167,37 +188,5 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int) {
   override def hashCode: Int = {
     return this.cells.hashCode()
   }
-
-  //  def toTwoDimArray(): Array[Array[Cell]] = {
-  //
-  //    val array = Array.ofDim[Array[Cell]](width)
-  //    for (c <- (0 until width)) {
-  //      array(c) = Array.ofDim[Cell](height)
-  //    }
-  //    var i = 0;
-  //    for (y <- (0 until height)) {
-  //      for (x <- (0 until width)) {
-  //        array(x)(y) = cells(i)
-  //        i = i + 1
-  //      }
-  //    }
-  //    
-  //    return array;
-  //  }
-
-  //  def arrToVector(twoDimArr:Array[Array[Cell]]):Grid={
-  //    var i=0;
-  //    var grid=new Grid(this.height,this.width)
-  //    
-  //    
-  //    for(y <- (0 until grid.height)) {
-  //      for (x <- (0 until grid.width)) {
-  //        grid.cells.updated(i,twoDimArr(x)(y))
-  //        i = i + 1
-  //      }
-  //    }
-  //    return grid
-  //    
-  //  }
 
 }
