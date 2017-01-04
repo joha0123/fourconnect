@@ -23,9 +23,6 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Array[Pla
   def this(height: Int, width: Int, players: Array[Player]) = this(Vector.fill(height * width)(new Cell(None)), height, width, players)
   def this(height: Int, width: Int) = this(height, width, Array(new Player(0), new Player(1)))
 
-  def getGridHeight(): Int = height
-  def getGridWidth(): Int = width
-
   def changeActivePlayer(): Grid = copy(activePlayerIndex = 1 - activePlayerIndex)
   def getActivePlayer(): Player = players(activePlayerIndex)
   def getPlayer(index: Int): Player = players(index)
