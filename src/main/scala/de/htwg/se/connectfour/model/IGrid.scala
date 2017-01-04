@@ -5,8 +5,8 @@ import de.htwg.se.connectfour.model.impl.Cell
 import de.htwg.se.connectfour.model.impl.Player
 
 trait IGrid {
-  def getGridHeight(): Int
-  def getGridWidth(): Int
+  def height(): Int
+  def width(): Int
   def changeActivePlayer(): Grid
   def getActivePlayer(): Player
   def getPlayer(index: Int): Player

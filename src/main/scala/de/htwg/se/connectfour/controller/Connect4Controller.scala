@@ -17,8 +17,8 @@ case class PlayerHasWon() extends Event
 
 class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extends Publisher {
 
-  def getGridHeight(): Int = grid.getGridHeight()
-  def getGridWidth(): Int = grid.getGridWidth()
+  def getGridHeight(): Int = grid.height
+  def getGridWidth(): Int = grid.width
   def isValid(number: Int): Boolean = grid.isWithinGrid(number)
   def getActivePlayer(): Player = grid.getActivePlayer()
   def changeActivePlayer(): Unit = grid.changeActivePlayer()
