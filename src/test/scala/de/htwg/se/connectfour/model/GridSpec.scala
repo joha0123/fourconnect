@@ -18,11 +18,11 @@ class GridSpec extends FlatSpec {
   val p1 = new Player(1, "Johannes", Color.BLACK);
   val p2 = new Player(2, "Patrick", Color.BLACK);
 
-  val player: Array[Player] = new Array[Player](2)
-  player(0) = p1; player(1) = p2;
+  val players: Array[Player] = new Array[Player](2)
+  players(0) = p1; players(1) = p2;
 
   behavior of "an empty grid"
-  var grid1 =new Grid(height, width);
+  var grid1 = new Grid(height, width);
 
   it should "have no coin in every Cell" in {
     grid1.cells.foreach { x =>
@@ -47,7 +47,7 @@ class GridSpec extends FlatSpec {
   }
 
   it should "be possible to insert a coin at col" in {
-    grid1 = grid1.insertCoinCol(0, 1)
+    grid1 = grid1.insertCoinCol(0, p1)
     assert(grid1.row(0)(0).content.isInstanceOf[Some[Coin]])
     assert(grid1.col(0)(0).content.isInstanceOf[Some[Coin]])
 
@@ -60,19 +60,6 @@ class GridSpec extends FlatSpec {
 
   }
 
-  it should "print the grid" in {
-    println(grid1.printout())
-
-    val grid = "N N N N N N N \n" +
-      "N N N N N N N \n" +
-      "N N N N N N N \n" +
-      "N N N N N N N \n" +
-      "1 N N N N N N \n" +
-      "1 N N N N N N \n"
-    assert(grid.equals(grid1.printout()))
-
-  }
-
   behavior of "winning grid"
   var grid2 = new Grid(height, width);
   var emptygrid = new Grid(height, width)
@@ -82,9 +69,9 @@ class GridSpec extends FlatSpec {
       for (y <- (0 until height)) {
         for (x1 <- (0 until width) if (width - 3 > x1)) {
           for (x <- (x1 until x1 + 4) if (x < grid1.width)) {
-            grid2 = grid2.insertCoinAt(x, y, player(pid))
+            grid2 = grid2.insertCoinAt(x, y, players(pid))
           }
-          assert(grid2.hasWon() == true)
+          assert(grid2.hasWon(players(pid)) == true)
           grid2 = emptygrid
         }
       }
@@ -97,9 +84,9 @@ class GridSpec extends FlatSpec {
       for (y <- (0 until height) if (height - 3 > y)) {
         for (x1 <- (0 until width)) {
           for (y1 <- (y until y + 4) if (y1 < grid1.height)) {
-            grid2 = grid2.insertCoinAt(x1, y1, player(pid))
+            grid2 = grid2.insertCoinAt(x1, y1, players(pid))
           }
-          assert(grid2.hasWon() == true)
+          assert(grid2.hasWon(players(pid)) == true)
           grid2 = emptygrid
         }
       }
@@ -116,11 +103,11 @@ class GridSpec extends FlatSpec {
           y3 = y
           x3 = x1
           for (y1 <- (0 until 4)) {
-            grid2 = grid2.insertCoinAt(x3, y3, player(pid))
+            grid2 = grid2.insertCoinAt(x3, y3, players(pid))
             x3 = x3 + 1; y3 = y3 + 1;
           }
 
-          assert(grid2.hasWon() == true)
+          assert(grid2.hasWon(players(pid)) == true)
           grid2 = emptygrid
         }
       }
@@ -130,8 +117,8 @@ class GridSpec extends FlatSpec {
   it should "equal a grid with same coins" in {
     var grid3 = new Grid(6, 7)
     var grid4 = new Grid(6, 7)
-    grid3 = grid3.insertCoinCol(1, 1)
-    grid4 = grid4.insertCoinCol(1, 1)
+    grid3 = grid3.insertCoinCol(1, p1)
+    grid4 = grid4.insertCoinCol(1, p1)
     assert(grid3.equals(grid4))
     assert(grid3.equals(p1).unary_!)
   }
@@ -140,10 +127,10 @@ class GridSpec extends FlatSpec {
 
   it should "not be possible to insert a coin at col" in {
     for (y <- (0 to height + 1)) {
-      grid2 = grid2.insertCoinCol(0, 1)
+      grid2 = grid2.insertCoinCol(0, p1)
     }
     var grid3 = grid2
-    grid2 = grid2.insertCoinCol(0, 1)
+    grid2 = grid2.insertCoinCol(0, p1)
     assert(grid3.equals(grid2))
 
   }

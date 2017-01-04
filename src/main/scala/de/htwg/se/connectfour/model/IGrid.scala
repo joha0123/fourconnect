@@ -1,14 +1,18 @@
 package de.htwg.se.connectfour.model
 
-
 import de.htwg.se.connectfour.model.impl.Grid
+import de.htwg.se.connectfour.model.impl.Cell
+import de.htwg.se.connectfour.model.impl.Player
 
 trait IGrid {
-  def getPlayerName(playerID:Int):String
-  def insertCoinCol(c: Int, playerID: Int): Grid
-  def printout(): String
-  def hasWon(): Boolean
+  def getGridHeight(): Int
+  def getGridWidth(): Int
+  def changeActivePlayer(): Grid
+  def getActivePlayer(): Player
+  def getPlayer(index: Int): Player
+  def insertCoinCol(c: Int, player: Player): Grid
+  def hasWon(player: Player): Boolean
   def isWithinGrid(col: Int): Boolean
-  def height: Int
-  def width: Int
+  def cell(row: Int, col: Int): Cell
+  def restart(): Grid
 }

@@ -1,15 +1,13 @@
 package de.htwg.se.connectfour.model.impl
 
-
 import java.awt.Color
 import de.htwg.se.connectfour.model.IGrid
 import scala.Vector
 
-
 object Grid {
   //Companion Object to initialize Players
-  def apply(height: Int, width: Int): Grid = new Grid(height, width,initPlayer())
-  def apply():Grid=apply(6,7)
+  def apply(height: Int, width: Int): Grid = new Grid(height, width, initPlayer())
+  def apply(): Grid = apply(6, 7)
 
   def initPlayer(): Array[Player] = {
     println("Player 1 name:"); val name1 = scala.io.StdIn.readLine()
@@ -21,9 +19,17 @@ object Grid {
 
 }
 
-case class Grid(cells: Vector[Cell], height: Int, width: Int, player:Array[Player]) extends IGrid {
-    def this(height:Int, width:Int,player:Array[Player])= this(Vector.fill(height * width)(new Cell(None)), height, width, player)
-      def this(height:Int,width:Int)=this(height,width,Array(new Player(0),new Player(1)))
+case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Array[Player], activePlayerIndex: Int = 0) extends IGrid {
+  def this(height: Int, width: Int, players: Array[Player]) = this(Vector.fill(height * width)(new Cell(None)), height, width, players)
+  def this(height: Int, width: Int) = this(height, width, Array(new Player(0), new Player(1)))
+
+  def getGridHeight(): Int = height
+  def getGridWidth(): Int = width
+
+  def changeActivePlayer(): Grid = copy(activePlayerIndex = 1 - activePlayerIndex)
+  def getActivePlayer(): Player = players(activePlayerIndex)
+  def getPlayer(index: Int): Player = players(index)
+
   def row(r: Int): Vector[Cell] = cells.slice(r * width, (r + 1) * width)
   def cell(r: Int, c: Int): Cell = row(r)(c)
   def col(c: Int): Vector[Cell] = for (r <- (0 until height).toVector) yield cell(r, c)
@@ -36,52 +42,33 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int, player:Array[Playe
       throw new IllegalArgumentException
     }
   }
-  def getPlayerName(playerID:Int):String=player(playerID).name
-  
 
   /**
    * This function inserts a Coin in the first empty row of the chosen column
    */
-  def insertCoinCol(c: Int, playerID: Int): Grid = {
+  def insertCoinCol(c: Int, player: Player): Grid = {
     for (r <- 0 until height) {
       if (cells(r * width + c).isEmpty()) {
-        return copy(cells.updated(r * width + c, new Cell(Option(Coin(player(playerID))))))
+        return copy(cells.updated(r * width + c, new Cell(Option(Coin(player)))))
       }
     }
     //return unchanged grid
     return copy(cells)
   }
 
-  
-  def printout(): String = {
-    var builder: StringBuilder = new StringBuilder()
-
-    for (r <- (0 until height) reverse) {
-      row(r).foreach {
-        c =>
-          c.content match {
-            case Some(coin) => builder.append(coin.player.id + " ")
-            case None => builder.append("N ")
-          }
-      }
-      builder.append("\n")
-    }
-    return builder.toString()
+  def restart(): Grid = {
+    copy(cells = Vector.fill(height * width)(new Cell(None)), activePlayerIndex = 0)
   }
 
-  def hasWon(): Boolean = {
-    val c1 = new Cell(Option(Coin(new Player(1))))
-    val c2 = new Cell(Option(Coin(new Player(2))))
-
-    val ListP1 = Vector(c1, c1, c1, c1)
-    val ListP2 = Vector(c2, c2, c2, c2)
+  def hasWon(player: Player): Boolean = {
+    val c1 = new Cell(Option(Coin(player)))
+    val winningCoins = Vector(c1, c1, c1, c1)
     //iterate over each index of row(0)
     //slice each col and match
     row(0).zipWithIndex.foreach {
       case (cell, i) =>
         col(i) match {
-          case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
-          case v: Vector[Cell] if (v.containsSlice(ListP2)) => return true;
+          case v: Vector[Cell] if (v.containsSlice(winningCoins)) => return true;
           case _ =>
         }
     }
@@ -89,16 +76,14 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int, player:Array[Playe
     col(0).zipWithIndex.foreach {
       case (cell, i) =>
         row(i) match {
-          case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
-          case v: Vector[Cell] if (v.containsSlice(ListP2)) =>return true;
+          case v: Vector[Cell] if (v.containsSlice(winningCoins)) => return true;
           case _ =>
         }
     }
     diagonal().foreach { x =>
 
       x match {
-        case v: Vector[Cell] if (v.containsSlice(ListP1)) =>return true;
-        case v: Vector[Cell] if (v.containsSlice(ListP2)) =>return true;
+        case v: Vector[Cell] if (v.containsSlice(winningCoins)) => return true;
         case _ =>
       }
 

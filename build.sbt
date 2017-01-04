@@ -16,3 +16,4 @@ libraryDependencies ++= {
    
 }
 libraryDependencies += "com.novocode" % "junit-interface" % "0.8" % "test->default"
+libraryDependencies += "org.scala-lang" % "scala-swing" % "2.11+"

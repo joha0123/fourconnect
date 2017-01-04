@@ -2,18 +2,41 @@ package de.htwg.se.connectfour.controller
 
 import de.htwg.se.connectfour.model.IGrid
 import de.htwg.se.connectfour.model.impl.Player
-import de.htwg.se.connectfour.util.Observeable
+import de.htwg.se.connectfour.model.impl.Cell
 import de.htwg.se.connectfour.util.CommandManager
 import de.htwg.se.connectfour.util.InserCoinCommand
 import java.awt.Color
 
+import scala.swing.Publisher
+import scala.swing.event.Event
+import de.htwg.se.connectfour.view._
+import de.htwg.se.connectfour.model.impl.Grid
 
+case class GridChanged() extends Event
+case class PlayerHasWon() extends Event
 
-class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extends Observeable {
+class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extends Publisher {
+
+  def getGridHeight(): Int = grid.getGridHeight()
+  def getGridWidth(): Int = grid.getGridWidth()
+  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
+  def getActivePlayer(): Player = grid.getActivePlayer()
+  def changeActivePlayer(): Unit = grid.changeActivePlayer()
+  def getCell(row: Int, col: Int): Cell = grid.cell(row, col)
+  def getPlayer(index: Int): Player = grid.getPlayer(index)
+
+  def insertCoin(col: Int, player: Player) = {
+    grid = commandManager.executeCommand(new InserCoinCommand(grid, col, grid.getActivePlayer()))
+    if (grid.hasWon(grid.getActivePlayer())) { publish(new GridChanged()); publish(new PlayerHasWon()) }
+    else {
+      grid = grid.changeActivePlayer()
+      publish(new GridChanged())
+    }
+  }
 
   def restart() {
-    //restart game
-    //evtl Design Pattern?
+    grid = grid.restart()
+    publish(new GridChanged())
   }
 
   def undo: Boolean = {
@@ -22,7 +45,7 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
       grid = commandManager.undo
       flag = true
     }
-    notifyObservers()
+    publish(new GridChanged())
     return flag
 
   }
@@ -33,23 +56,8 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
       grid = commandManager.redo
       flag = true
     }
-    notifyObservers()
+    publish(new GridChanged())
     return flag
   }
-
-  def getDimension: String = return "[0," + grid.width + "]"
-  def hasWon(): Boolean = grid.hasWon()
-  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
-  def printout(): String = grid.printout()
-  def playerName(playerID:Int):String=grid.getPlayerName(playerID)
-  
-  
-  def insertCoin(number: Int, playerID: Int) = {
-    require(playerID==0||playerID==1)
-    grid = commandManager.executeCommand(new InserCoinCommand(grid, number, playerID))
-    println("Player " + playerName(playerID)+ " inserts " + number)
-    notifyObservers()
-  }
-  
 
 }

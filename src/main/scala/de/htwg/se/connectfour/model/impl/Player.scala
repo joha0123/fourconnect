@@ -2,7 +2,7 @@ package de.htwg.se.connectfour.model.impl
 
 import java.awt.Color
 
-case class Player(id: Integer, name: String, color: Color, gamesWon: Int){
+case class Player(id: Integer, name: String, color: Color, gamesWon: Int) {
   def this(id: Integer, name: String, color: Color) = this(id, name, color, 0)
   def this(name: String, color: Color) = this(Player.inc, name, color, 0)
   def this(id: Integer) = this(id, "", Color.BLACK, 0)
