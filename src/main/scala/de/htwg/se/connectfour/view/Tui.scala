@@ -22,9 +22,6 @@ class Tui(var controller: Connect4Controller) extends Reactor {
 
   printTui()
 
-  /**
-   * q=quit; [0,6]=input col; r=restart
-   */
   def processInputLine(): Boolean = {
     var continue = true
 

@@ -22,8 +22,8 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
   def getPlayer(index: Int): Player = grid.getPlayer(index)
 
   def insertCoin(col: Int, player: Player) = {
-    grid = commandManager.executeCommand(new InserCoinCommand(grid, col, grid.getActivePlayer()))
-    if (grid.hasWon(grid.getActivePlayer())) { publish(new GridChanged()); publish(new PlayerHasWon()) }
+    grid = commandManager.executeCommand(new InserCoinCommand(grid, col, player))
+    if (grid.hasWon(player)) { publish(new GridChanged()); publish(new PlayerHasWon()) }
     else {
       grid = grid.changeActivePlayer()
       publish(new GridChanged())
