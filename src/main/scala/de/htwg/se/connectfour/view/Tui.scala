@@ -11,7 +11,7 @@ class Tui(var controller: Connect4Controller) extends Reactor {
 
   reactions += {
     case GridChanged() => {
-      printTui
+      printTui()
     }
     case PlayerHasWon() => {
       printWinningMessage()
@@ -35,8 +35,8 @@ class Tui(var controller: Connect4Controller) extends Reactor {
         printExitMessage()
         continue = false
       }
-      case "u" => if (controller.undo) controller.changeActivePlayer()
-      case "r" => if (controller.redo) controller.changeActivePlayer()
+      case "u" => controller.undo // Spieler muss nichtmehr geändert werden, da das letzte Grid zurückgegeben wird
+      case "r" => controller.redo // und darin ist auch gespeichert wer dran war
       case numbers() => {
         if (controller.isValid(input.trim().toInt)) controller.insertCoin(input.trim().toInt, controller.getActivePlayer())
         else printInputErrorMessage()

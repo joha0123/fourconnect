@@ -39,25 +39,19 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
     publish(new GridChanged())
   }
 
-  def undo: Boolean = {
-    var flag = false
+  def undo: Unit = {
     if (commandManager.isUndoAvailable) {
       grid = commandManager.undo
-      flag = true
     }
     publish(new GridChanged())
-    return flag
 
   }
 
-  def redo: Boolean = {
-    var flag = false
+  def redo: Unit = {
     if (commandManager.isRedoAvailable) {
       grid = commandManager.redo
-      flag = true
     }
     publish(new GridChanged())
-    return flag
   }
 
 }
