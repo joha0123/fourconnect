@@ -4,6 +4,7 @@ import scala.swing.Reactor
 import de.htwg.se.connectfour.controller._
 import de.htwg.se.connectfour.model.impl.Player
 import scala.util.matching.Regex
+import scala.language.postfixOps
 
 class Tui(var controller: Connect4Controller) extends Reactor {
   //Subscribe Reactor to Publisher

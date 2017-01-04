@@ -3,6 +3,7 @@ package de.htwg.se.connectfour.view
 import scala.swing._
 import scala.swing.event._
 import de.htwg.se.connectfour.controller._
+import scala.language.postfixOps
 
 class GamePanel(controller: Connect4Controller) extends GridPanel(controller.getGridHeight(), controller.getGridWidth()) {
   val gridHeight = controller.getGridHeight()

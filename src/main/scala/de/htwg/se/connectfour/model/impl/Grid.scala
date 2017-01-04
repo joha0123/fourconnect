@@ -3,6 +3,7 @@ package de.htwg.se.connectfour.model.impl
 import scala.swing.Color
 import de.htwg.se.connectfour.model.IGrid
 import scala.Vector
+import scala.language.postfixOps
 
 object Grid {
   //Companion Object to initialize Players
