@@ -1,9 +1,8 @@
 package de.htwg.se.connectfour.view
 
-import de.htwg.se.connectfour.controller.Connect4Controller
+import de.htwg.se.connectfour.controller._
 import scala.swing._
-import de.htwg.se.connectfour.controller.GridChanged
-import javax.swing.border.EmptyBorder
+
 
 class Gui(var controller: Connect4Controller) extends Frame {
   title = "Vier Gewinnt!"

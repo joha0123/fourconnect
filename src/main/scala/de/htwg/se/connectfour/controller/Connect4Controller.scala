@@ -5,12 +5,8 @@ import de.htwg.se.connectfour.model.impl.Player
 import de.htwg.se.connectfour.model.impl.Cell
 import de.htwg.se.connectfour.util.CommandManager
 import de.htwg.se.connectfour.util.InserCoinCommand
-import java.awt.Color
-
 import scala.swing.Publisher
 import scala.swing.event.Event
-import de.htwg.se.connectfour.view._
-import de.htwg.se.connectfour.model.impl.Grid
 
 case class GridChanged() extends Event
 case class PlayerHasWon() extends Event

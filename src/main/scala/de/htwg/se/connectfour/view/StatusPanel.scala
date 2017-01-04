@@ -1,9 +1,8 @@
 package de.htwg.se.connectfour.view
 
 import scala.swing._
-import de.htwg.se.connectfour.controller.Connect4Controller
-import de.htwg.se.connectfour.controller.GridChanged
-import java.awt.Color
+import de.htwg.se.connectfour.controller._
+
 
 class StatusPanel(controller: Connect4Controller) extends GridPanel(4, 1) {
   preferredSize = new Dimension(100, 600)

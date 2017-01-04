@@ -1,6 +1,6 @@
 package de.htwg.se.connectfour.model.impl
 
-import java.awt.Color
+import scala.swing.Color
 import de.htwg.se.connectfour.model.IGrid
 import scala.Vector
 
@@ -12,8 +12,8 @@ object Grid {
   def initPlayer(): Array[Player] = {
     println("Player 1 name:"); val name1 = scala.io.StdIn.readLine()
     println("Player 2 name:"); val name2 = scala.io.StdIn.readLine()
-    val p1 = new Player(name1, Color.RED)
-    val p2 = new Player(name2, Color.YELLOW)
+    val p1 = new Player(name1, new Color(255, 0, 0))
+    val p2 = new Player(name2, new Color(255, 255, 0))
     Array(p1, p2)
   }
 

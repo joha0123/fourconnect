@@ -1,11 +1,11 @@
 package de.htwg.se.connectfour.model.impl
 
-import java.awt.Color
+import scala.swing.Color
 
 case class Player(id: Integer, name: String, color: Color, gamesWon: Int) {
   def this(id: Integer, name: String, color: Color) = this(id, name, color, 0)
   def this(name: String, color: Color) = this(Player.inc, name, color, 0)
-  def this(id: Integer) = this(id, "", Color.BLACK, 0)
+  def this(id: Integer) = this(id, "", new Color(0,0,0), 0)
   override def canEqual(a: Any) = a.isInstanceOf[Player]
   override def equals(that: Any): Boolean =
     that match {

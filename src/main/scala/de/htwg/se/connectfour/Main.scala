@@ -2,8 +2,6 @@ package de.htwg.se.connectfour
 
 import de.htwg.se.connectfour.model.impl.Grid
 import de.htwg.se.connectfour.controller.Connect4Controller
-import de.htwg.se.connectfour.model.impl.Player
-import java.awt.Color
 import de.htwg.se.connectfour.view._
 import de.htwg.se.connectfour.util.CommandManager
 

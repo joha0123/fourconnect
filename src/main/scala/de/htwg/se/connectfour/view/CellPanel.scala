@@ -2,7 +2,6 @@ package de.htwg.se.connectfour.view
 
 import scala.swing._
 import scala.swing.event._
-import java.awt.Color
 import de.htwg.se.connectfour.controller.Connect4Controller
 import de.htwg.se.connectfour.model.impl.Cell
 
@@ -17,7 +16,7 @@ class CellPanel(row: Int, col: Int, controller: Connect4Controller) extends Pane
     val padding: Int = 5
     val color: Color = myCell.content match {
       case Some(coin) => coin.player.color
-      case None => Color.WHITE
+      case None => new Color(255, 255, 255)
     }
 
     g.setColor(color)
