@@ -20,6 +20,7 @@ class Tui(var controller: Connect4Controller) extends Reactor {
     }
     case e: Draw => {
       printDrawMessage()
+      controller.restart()
     }
   }
 
@@ -83,8 +84,6 @@ class Tui(var controller: Connect4Controller) extends Reactor {
       builder.append("\n")
     }
     println(builder.toString())
-    
-    println(controller.getPlayer(0).gamesWon)
     printInsertNextCoinMessage()
   }
 
@@ -93,4 +92,5 @@ class Tui(var controller: Connect4Controller) extends Reactor {
   def printInsertNextCoinMessage() = println(controller.getActivePlayer().name + " please insert a Coin (0-" + (controller.getGridWidth() - 1) + ") | q: quit | u: undo | r: redo")
   def printInputErrorMessage() = println("Incorrect Input! Available commands are: (0-" + (controller.getGridWidth() - 1) + ") | q: quit | u: undo | r: redo")
   def printExitMessage() = println("Shutting down the game. Thank you for playing :)")
+  //def printScoreMessage() = println("| " + controller.getPlayer(0) + " " +  )
 }

@@ -39,6 +39,7 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
       publish(new PlayerHasWon(player)) 
     }
     else if(grid.isFull()) {
+      publish(new GridChanged())
       publish(new Draw())
     }
     else {
