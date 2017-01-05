@@ -14,4 +14,7 @@ trait IGrid {
   def isWithinGrid(col: Int): Boolean
   def cell(row: Int, col: Int): Cell
   def restart(): IGrid
+  def setPlayers(newPlayers: Vector[Player]): IGrid
+  def incScore(player: Player): IGrid
+  def isFull(): Boolean
 }

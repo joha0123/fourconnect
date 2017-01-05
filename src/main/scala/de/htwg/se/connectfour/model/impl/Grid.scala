@@ -5,33 +5,22 @@ import de.htwg.se.connectfour.model.IGrid
 import scala.Vector
 import scala.language.postfixOps
 
-object Grid {
-  //Companion Object to initialize Players
-  def apply(height: Int, width: Int): Grid = new Grid(height, width, initPlayer())
-  def apply(): Grid = apply(6, 7)
 
-  def initPlayer(): Array[Player] = {
-    println("Player 1 name:"); val name1 = scala.io.StdIn.readLine()
-    println("Player 2 name:"); val name2 = scala.io.StdIn.readLine()
-    val p1 = new Player(name1, new Color(255, 0, 0))
-    val p2 = new Player(name2, new Color(255, 255, 0))
-    Array(p1, p2)
-  }
-
-}
-
-case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Array[Player], activePlayerIndex: Int = 0) extends IGrid {
-  def this(height: Int, width: Int, players: Array[Player]) = this(Vector.fill(height * width)(new Cell(None)), height, width, players)
-  def this(height: Int, width: Int) = this(height, width, Array(new Player(0), new Player(1)))
+case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Vector[Player], activePlayerIndex: Int = 0) extends IGrid {
+  def this(height: Int, width: Int, players: Vector[Player]) = this(Vector.fill(height * width)(new Cell(None)), height, width, players)
+  def this(height: Int, width: Int) = this(height, width, Vector(new Player(0), new Player(1)))
 
   def changeActivePlayer(): Grid = copy(activePlayerIndex = 1 - activePlayerIndex)
   def getActivePlayer(): Player = players(activePlayerIndex)
   def getPlayer(index: Int): Player = players(index)
+  def setPlayers(newPlayers: Vector[Player]): Grid = copy(players = newPlayers)
+  def incScore(player: Player): Grid = copy(players = players.updated(players.indexOf(player), player.incScore()))  
 
   def row(r: Int): Vector[Cell] = cells.slice(r * width, (r + 1) * width)
   def cell(r: Int, c: Int): Cell = row(r)(c)
   def col(c: Int): Vector[Cell] = for (r <- (0 until height).toVector) yield cell(r, c)
   def isWithinGrid(col: Int): Boolean = if (col >= 0 && col < width) true else false
+  def isFull(): Boolean = !cells.contains(new Cell(None))
 
   def insertCoinAt(c: Int, r: Int, p: Player): Grid = {
     if (c < width && r < height && c >= 0 && r >= 0) {

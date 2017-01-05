@@ -9,7 +9,13 @@ import scala.swing.Publisher
 import scala.swing.event.Event
 
 case class GridChanged() extends Event
-case class PlayerHasWon() extends Event
+case class PlayerChanged() extends Event
+case class PlayerHasWon(winner: Player) extends Event {
+  new PlayerChanged()
+}
+case class Draw() extends Event
+
+
 
 class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extends Publisher {
 
@@ -20,15 +26,28 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
   def changeActivePlayer(): Unit = grid.changeActivePlayer()
   def getCell(row: Int, col: Int): Cell = grid.cell(row, col)
   def getPlayer(index: Int): Player = grid.getPlayer(index)
+  def setPlayers(newPlayers: Vector[Player]) = {
+    grid = grid.setPlayers(newPlayers)
+    publish(new PlayerChanged())
+  }
 
   def insertCoin(col: Int, player: Player) = {
     grid = commandManager.executeCommand(new InserCoinCommand(grid, col, player))
-    if (grid.hasWon(player)) { publish(new GridChanged()); publish(new PlayerHasWon()) }
+    if (grid.hasWon(player)) {
+      grid = grid.incScore(player)
+      publish(new GridChanged())
+      publish(new PlayerHasWon(player)) 
+    }
+    else if(grid.isFull()) {
+      publish(new Draw())
+    }
     else {
       grid = grid.changeActivePlayer()
       publish(new GridChanged())
     }
   }
+  
+
 
   def restart() {
     grid = grid.restart()

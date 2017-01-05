@@ -7,10 +7,10 @@ import de.htwg.se.connectfour.util.CommandManager
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val grid = Grid()
+    val grid = new Grid(6, 7)
     val commandManager = new CommandManager()
-    val controller = new Connect4Controller(grid, commandManager)
-
+    val controller = new Connect4Controller(grid, commandManager)    
+    
     val tui = new Tui(controller)
     val gui = new Gui(controller)
 
