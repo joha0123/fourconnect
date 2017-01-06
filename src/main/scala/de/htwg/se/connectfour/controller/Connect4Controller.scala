@@ -10,9 +10,7 @@ import scala.swing.event.Event
 
 case class GridChanged() extends Event
 case class PlayerChanged() extends Event
-case class PlayerHasWon(winner: Player) extends Event {
-  new PlayerChanged()
-}
+case class PlayerHasWon(winner: Player) extends Event 
 case class Draw() extends Event
 
 

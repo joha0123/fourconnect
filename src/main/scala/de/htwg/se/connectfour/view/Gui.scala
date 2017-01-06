@@ -27,7 +27,7 @@ class Gui(var controller: Connect4Controller) extends Frame {
     resizable = false
     visible = true
 
-
+    repaint()
 
 
 }
