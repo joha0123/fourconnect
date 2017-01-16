@@ -60,6 +60,23 @@ class GridSpec extends FlatSpec {
 
   }
 
+  behavior of "grid"
+  var grid5 = new Grid(height, width)
+  grid5.setPlayers(players.toVector)
+
+  it should "have a player" in {
+    //def changeActivePlayer(): Grid = copy(activePlayerIndex = 1 - activePlayerIndex)
+    //def getActivePlayer(): Player = players(activePlayerIndex)
+    //def getPlayer(index: Int): Player = players(index)
+    //def setPlayers(newPlayers: Vector[Player]): Grid = copy(players = newPlayers)
+
+    val p1 = grid5.getActivePlayer()
+    val p2 = grid5.changeActivePlayer().getActivePlayer()
+
+    assert(!p1.equals(p2))
+
+  }
+
   behavior of "winning grid"
   var grid2 = new Grid(height, width);
   var emptygrid = new Grid(height, width)
@@ -132,6 +149,8 @@ class GridSpec extends FlatSpec {
     var grid3 = grid2
     grid2 = grid2.insertCoinCol(0, p1)
     assert(grid3.equals(grid2))
+
+    assert(grid3.isFull() != true)
 
   }
 

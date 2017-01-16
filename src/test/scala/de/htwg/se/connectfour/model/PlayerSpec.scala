@@ -21,6 +21,11 @@ class PlayerSpec extends FlatSpec {
   it should "have 0 gameswon" in {
     assert(player1.gamesWon == 0)
   }
+  
+  it should "have 1 gameswon after first win" in {
+    val player3=player1.incScore()
+    assert(player3.gamesWon==1)
+  }
 
   behavior of "A new Player"
 

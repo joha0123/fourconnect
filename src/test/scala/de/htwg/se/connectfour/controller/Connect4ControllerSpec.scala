@@ -11,11 +11,13 @@ class Connect4ControllerSpec extends FlatSpec {
   behavior of "a controller"
   val p1 = new Player(1, "J", Color.RED)
   val p2 = new Player(2, "P", Color.YELLOW)
-  var players = Array(p1, p2)
+  val players = Vector(p1, p2)
   var grid1 = new Grid(6, 7)
   var grid2 = new Grid(6, 7)
+  grid1.setPlayers(players)
   val commandManager = new CommandManager()
   val controller = new Connect4Controller(grid1, commandManager)
+  val controller2=new Connect4Controller(grid2,commandManager)
 
   it should "validate  number" in {
     assert(controller.isValid(0).equals(true))
@@ -25,19 +27,74 @@ class Connect4ControllerSpec extends FlatSpec {
 
   it should "insert coin" in {
     controller.insertCoin(1, p1)
+    controller2.insertCoin(1, p1)
     grid2 = grid2.insertCoinCol(1, p1)
     assert(controller.grid.equals(grid2))
     controller.insertCoin(2, p1)
+    controller2.insertCoin(2, p1)
     grid2 = grid2.insertCoinCol(2, p1)
     assert(controller.grid.equals(grid2))
     controller.insertCoin(5, p2)
+    controller2.insertCoin(5, p2)
     grid2 = grid2.insertCoinCol(5, p2)
     assert(controller.grid.equals(grid2))
 
-    intercept[ArrayIndexOutOfBoundsException] {
-      controller.insertCoin(7, p2)
-    }
-
   }
+  
+//  def getGridHeight(): Int = grid.height
+//  def getGridWidth(): Int = grid.width
+//  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
+//  def getActivePlayer(): Player = grid.getActivePlayer()
+//  def changeActivePlayer(): Unit = grid.changeActivePlayer()
+//  def getCell(row: Int, col: Int): Cell = grid.cell(row, col)
+//  def getPlayer(index: Int): Player = grid.getPlayer(index)
+//  def setPlayers(newPlayers: Vector[Player]) = {
+//    grid = grid.setPlayers(newPlayers)
+//    publish(new PlayerChanged())
+//  }
+//  undo, redo
+  
+  it should "get Cell" in {
+    val cell=grid1.cell(0, 0)
+    assert(cell.equals(controller.getCell(0, 0)))
+  }
+  
+  
+  it should "get dimensions" in {
+    assert(controller.getGridHeight().equals(6))
+    assert(controller.getGridWidth().equals(7))
+    
+  }
+  
+  it should "validate the input" in {
+    assert(controller.isValid(3).equals(true))
+    
+  }
+  
+  it should "hand over the players" in {
+    assert(controller.getActivePlayer().equals(p1))
+    controller.changeActivePlayer()
+    assert(controller.getActivePlayer().equals(p1))
+  }
+  
+  it should "redo and undo command" in {
+    var grid3=controller.grid
+    var grid4=controller2.grid
+    
+    assert(grid3.equals(grid4))
+    controller.undo
+    grid3=controller.grid
+    
+    assert(!grid3.equals(grid4))
+    controller.redo
+    grid3=controller.grid
+    assert(grid3.equals(grid4))
+    
+  }
+  
+  
+  
+  
+  
 
 }
