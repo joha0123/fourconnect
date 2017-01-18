@@ -17,7 +17,15 @@ class Connect4ControllerSpec extends FlatSpec {
   grid1.setPlayers(players)
   val commandManager = new CommandManager()
   val controller = new Connect4Controller(grid1, commandManager)
-  val controller2=new Connect4Controller(grid2,commandManager)
+  val controller2 = new Connect4Controller(grid2, commandManager)
+
+  it should "be possible to add players" in {
+    var grid5 = new Grid(6, 7)
+    val controller3 = new Connect4Controller(grid5, commandManager)
+    controller3.setPlayers(players)
+    assert(controller3.getPlayer(0) == p1)
+    assert(controller3.getPlayer(1) == p2)
+  }
 
   it should "validate  number" in {
     assert(controller.isValid(0).equals(true))
@@ -38,63 +46,61 @@ class Connect4ControllerSpec extends FlatSpec {
     controller2.insertCoin(5, p2)
     grid2 = grid2.insertCoinCol(5, p2)
     assert(controller.grid.equals(grid2))
-
   }
   
-//  def getGridHeight(): Int = grid.height
-//  def getGridWidth(): Int = grid.width
-//  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
-//  def getActivePlayer(): Player = grid.getActivePlayer()
-//  def changeActivePlayer(): Unit = grid.changeActivePlayer()
-//  def getCell(row: Int, col: Int): Cell = grid.cell(row, col)
-//  def getPlayer(index: Int): Player = grid.getPlayer(index)
-//  def setPlayers(newPlayers: Vector[Player]) = {
-//    grid = grid.setPlayers(newPlayers)
-//    publish(new PlayerChanged())
-//  }
-//  undo, redo
-  
+
+  //  def getGridHeight(): Int = grid.height
+  //  def getGridWidth(): Int = grid.width
+  //  def isValid(number: Int): Boolean = grid.isWithinGrid(number)
+  //  def getActivePlayer(): Player = grid.getActivePlayer()
+  //  def changeActivePlayer(): Unit = grid.changeActivePlayer()
+  //  def getCell(row: Int, col: Int): Cell = grid.cell(row, col)
+  //  def getPlayer(index: Int): Player = grid.getPlayer(index)
+  //  def setPlayers(newPlayers: Vector[Player]) = {
+  //    grid = grid.setPlayers(newPlayers)
+  //    publish(new PlayerChanged())
+  //  }
+  //  undo, redo
+
   it should "get Cell" in {
-    val cell=grid1.cell(0, 0)
+    val cell = grid1.cell(0, 0)
     assert(cell.equals(controller.getCell(0, 0)))
   }
-  
-  
+
   it should "get dimensions" in {
     assert(controller.getGridHeight().equals(6))
     assert(controller.getGridWidth().equals(7))
-    
+
   }
-  
+
   it should "validate the input" in {
     assert(controller.isValid(3).equals(true))
-    
+
   }
-  
+
   it should "hand over the players" in {
     assert(controller.getActivePlayer().equals(p1))
     controller.changeActivePlayer()
-    assert(controller.getActivePlayer().equals(p1))
   }
-  
+
   it should "redo and undo command" in {
-    var grid3=controller.grid
-    var grid4=controller2.grid
-    
+    var grid3 = controller.grid
+    var grid4 = controller2.grid
+
     assert(grid3.equals(grid4))
     controller.undo
-    grid3=controller.grid
-    
+    grid3 = controller.grid
+
     assert(!grid3.equals(grid4))
     controller.redo
-    grid3=controller.grid
+    grid3 = controller.grid
     assert(grid3.equals(grid4))
-    
+
   }
-  
-  
-  
-  
-  
+
+  it should "restart" in {
+    controller.restart()
+    assert(controller.grid == new Grid(6, 7))
+  }
 
 }

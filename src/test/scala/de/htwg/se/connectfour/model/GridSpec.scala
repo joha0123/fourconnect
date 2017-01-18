@@ -18,8 +18,7 @@ class GridSpec extends FlatSpec {
   val p1 = new Player(1, "Johannes", Color.BLACK);
   val p2 = new Player(2, "Patrick", Color.BLACK);
 
-  val players: Array[Player] = new Array[Player](2)
-  players(0) = p1; players(1) = p2;
+  val players: Vector[Player] = Vector(p1, p2)
 
   behavior of "an empty grid"
   var grid1 = new Grid(height, width);
@@ -62,19 +61,32 @@ class GridSpec extends FlatSpec {
 
   behavior of "grid"
   var grid5 = new Grid(height, width)
-  grid5.setPlayers(players.toVector)
+  grid5 = grid5.setPlayers(players)
 
-  it should "have a player" in {
+  it should "have two players" in {
     //def changeActivePlayer(): Grid = copy(activePlayerIndex = 1 - activePlayerIndex)
     //def getActivePlayer(): Player = players(activePlayerIndex)
     //def getPlayer(index: Int): Player = players(index)
     //def setPlayers(newPlayers: Vector[Player]): Grid = copy(players = newPlayers)
 
-    val p1 = grid5.getActivePlayer()
-    val p2 = grid5.changeActivePlayer().getActivePlayer()
+    val grid_p1 = grid5.getPlayer(0)
+    val grid_p2 = grid5.getPlayer(1)
+    assert(grid_p1 == p1)
+    assert(grid_p2 == p2)
+  }
 
-    assert(!p1.equals(p2))
+  it should "have an active player that can be changed" in {
+    assert(grid5.getActivePlayer() == p1)
+    assert(grid5.changeActivePlayer().getActivePlayer() == p2)
+  }
 
+  it should "be possible to update the player score" in {
+    assert(grid5.getPlayer(0).gamesWon == 0)
+    assert(grid5.incScore(p1).getActivePlayer().gamesWon == 1)
+  }
+
+  it should "be possible to reset the grid" in {
+    assert(grid5.restart() == emptygrid)
   }
 
   behavior of "winning grid"

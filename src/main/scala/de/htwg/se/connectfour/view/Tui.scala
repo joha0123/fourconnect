@@ -28,9 +28,9 @@ class Tui(var controller: Connect4Controller) extends Reactor {
   printTui()
 
   def initPlayers() = {
-    println("### Player 1 ###"); 
+    println("### Player 1 ###");
     val p1 = new Player(inputPlayerName(), inputPlayerColor())
-    
+
     println("### Player 2 ###");
     val p2 = new Player(inputPlayerName(), inputPlayerColor())
     controller.setPlayers(Vector(p1, p2))
@@ -48,7 +48,7 @@ class Tui(var controller: Connect4Controller) extends Reactor {
       case "1" => new Color(255, 255, 0)
       case "2" => new Color(0, 255, 0)
       case "3" => new Color(0, 0, 0)
-      case _   => inputPlayerColor()
+      case _ => inputPlayerColor()
     }
   }
 
@@ -78,7 +78,7 @@ class Tui(var controller: Connect4Controller) extends Reactor {
       for (viewCol <- (0 until controller.getGridWidth())) {
         controller.getCell(viewRow, viewCol).content match {
           case Some(coin) => builder.append(coin.player.id.toString()).append(" ")
-          case None       => builder.append("N ")
+          case None => builder.append("N ")
         }
       }
       builder.append("\n")

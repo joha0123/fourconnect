@@ -5,7 +5,6 @@ import de.htwg.se.connectfour.model.IGrid
 import scala.Vector
 import scala.language.postfixOps
 
-
 case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Vector[Player], activePlayerIndex: Int = 0) extends IGrid {
   def this(height: Int, width: Int, players: Vector[Player]) = this(Vector.fill(height * width)(new Cell(None)), height, width, players)
   def this(height: Int, width: Int) = this(height, width, Vector(new Player(0), new Player(1)))
@@ -14,7 +13,7 @@ case class Grid(cells: Vector[Cell], height: Int, width: Int, players: Vector[Pl
   def getActivePlayer(): Player = players(activePlayerIndex)
   def getPlayer(index: Int): Player = players(index)
   def setPlayers(newPlayers: Vector[Player]): Grid = copy(players = newPlayers)
-  def incScore(player: Player): Grid = copy(players = players.updated(players.indexOf(player), player.incScore()))  
+  def incScore(player: Player): Grid = copy(players = players.updated(players.indexOf(player), player.incScore()))
 
   def row(r: Int): Vector[Cell] = cells.slice(r * width, (r + 1) * width)
   def cell(r: Int, c: Int): Cell = row(r)(c)

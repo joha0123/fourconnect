@@ -10,10 +10,8 @@ import scala.swing.event.Event
 
 case class GridChanged() extends Event
 case class PlayerChanged() extends Event
-case class PlayerHasWon(winner: Player) extends Event 
+case class PlayerHasWon(winner: Player) extends Event
 case class Draw() extends Event
-
-
 
 class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extends Publisher {
 
@@ -34,19 +32,15 @@ class Connect4Controller(var grid: IGrid, commandManager: CommandManager) extend
     if (grid.hasWon(player)) {
       grid = grid.incScore(player)
       publish(new GridChanged())
-      publish(new PlayerHasWon(player)) 
-    }
-    else if(grid.isFull()) {
+      publish(new PlayerHasWon(player))
+    } else if (grid.isFull()) {
       publish(new GridChanged())
       publish(new Draw())
-    }
-    else {
+    } else {
       grid = grid.changeActivePlayer()
       publish(new GridChanged())
     }
   }
-  
-
 
   def restart() {
     grid = grid.restart()

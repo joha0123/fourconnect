@@ -22,7 +22,7 @@ class GamePanel(controller: Connect4Controller) extends GridPanel(controller.get
     case e: PlayerHasWon => showDialog("Congratulations", e.winner.name + " has won the game!")
     case e: Draw => showDialog("Game Draw", "No more moves possible")
   }
-  
+
   def showDialog(title: String, message: String) = Dialog.showMessage(this, message, title)
 
 }
