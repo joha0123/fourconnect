@@ -112,6 +112,10 @@ class Connect4ControllerSpec extends FlatSpec {
   val controller3 = new Connect4Controller(grid5, command5);
 
   it should "do nothing" in {
+    intercept[NoSuchElementException] {
+      command5.redo
+      command5.undo
+    }
     controller3.insertCoin(0, p1)
 
     controller3.insertCoin(0, p1)
