@@ -47,7 +47,6 @@ class Connect4ControllerSpec extends FlatSpec {
     grid2 = grid2.insertCoinCol(5, p2)
     assert(controller.grid.equals(grid2))
   }
-  
 
   //  def getGridHeight(): Int = grid.height
   //  def getGridWidth(): Int = grid.width
@@ -95,12 +94,32 @@ class Connect4ControllerSpec extends FlatSpec {
     controller.redo
     grid3 = controller.grid
     assert(grid3.equals(grid4))
+    var grid5 = new Grid(6, 7)
+    var command5 = new CommandManager();
+    val controller3 = new Connect4Controller(grid5, command5);
+
+    controller3.undo
+    assert(controller3.grid.equals(grid5))
+    controller3.redo
+    assert(controller3.grid.equals(grid5))
 
   }
 
   it should "restart" in {
     controller.restart()
     assert(controller.grid == new Grid(6, 7))
+  }
+
+  behavior of "a fill grid"
+  var grid5 = new Grid(1, 1)
+  var command5 = new CommandManager();
+  val controller3 = new Connect4Controller(grid5, command5);
+
+  it should "do nothing" in {
+    controller3.insertCoin(0, p1)
+
+    controller3.insertCoin(0, p1)
+
   }
 
 }
